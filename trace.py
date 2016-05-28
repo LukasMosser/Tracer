@@ -4,14 +4,14 @@ import numpy as np
 
 
 class Trace(object):
-    def __init__(self):
+    def __init__(self, peak_num):
         """
         Trace:
         contains representation of trace data
         is used on Screen to represent seismic data
         :return:
         """
-        self.data = []
+        self.peaks = [0]*peak_num
 
     def draw_line(self, screen, dim, pos, linecolor=[255, 0, 0], line_resolution=2):
         """
