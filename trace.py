@@ -1,16 +1,21 @@
 from itertools import islice
+import math
 import pygame
 
 
 class Trace(object):
-    def __init__(self):
+    def __init__(self, screen):
         """
         Trace:
         contains representation of trace data
         is used on Screen to represent seismic data
         :return:
         """
-        self.data = []
+        self.data = [math.sin(float(n) / 3) for n in range(100)]
+
+	self.screen = screen
+
+	self.length = screen.height * 2 # the vertical size in pixels
 
     def draw_line(self, screen, dim, pos, linecolor=[255, 0, 0], line_resolution=2):
         """
@@ -36,3 +41,30 @@ class Trace(object):
         for elem in it:
             result = result[1:] + (elem,)
             yield result
+
+    def draw(self, pos, offset=200):
+        """
+        :param pos: vertical position relative to center
+        """
+
+	window = self.screen.height
+
+	sample_rate = float(len(self.data)) / self.length
+
+	begin_pos = self.length / 2 - window / 2 + pos
+	end_pos = self.length / 2 + window / 2 + pos
+
+	begin_index = int(begin_pos * sample_rate) 
+	end_index = int(end_pos * sample_rate) 
+
+	amplitude_factor = 100
+
+        for n in range(begin_index, end_index):
+            x0 = self.data[n] * amplitude_factor + offset
+            y0 = n / sample_rate - window / 2
+
+            x1 = self.data[n + 1] * amplitude_factor + offset
+            y1 = (n + 1) / sample_rate - window / 2
+
+            pygame.draw.line(self.screen.screen, (255, 0, 255), (x0, y0), (x1, y1), 2)
+    
