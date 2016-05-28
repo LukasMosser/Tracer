@@ -3,18 +3,19 @@ import character, trace
 
 class EventLoop:
     def __init__(self, screen):
-	self.screen = screen
+        peak_num = 1
+        self.screen = screen
 
         self.character = character.Character(screen)
 
-	self.reference_trace = trace.Trace(self.screen)
-	self.comparison_trace = trace.Trace(self.screen)
+        self.reference_trace = trace.Trace(peak_num, self.screen)
+        self.comparison_trace = trace.Trace(peak_num, self.screen)
 
-	self.trace_position = 0 # vertical position relative to center
+        self.trace_position = 0 # vertical position relative to center
 
-	self.clock = pygame.time.Clock()
+        self.clock = pygame.time.Clock()
 
-	self.done = False
+        self.done = False
 
         self.step = 1 # the number of pixels to move the comparison trace per iteration
 
