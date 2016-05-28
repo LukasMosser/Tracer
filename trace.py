@@ -26,7 +26,7 @@ class Trace(object):
         for pixel_window in self.moving_window(line_range, n=line_resolution):
             pygame.draw.line(screen, linecolor, (pixel_window[0], pos), (pixel_window[1], pos))
 
-    def moving_window(seq, n=2):
+    def moving_window(self, seq, n=2):
         "Returns a sliding window (of width n) over data from the iterable"
         "   s -> (s0,s1,...s[n-1]), (s1,s2,...,sn), ...                   "
         it = iter(seq)
