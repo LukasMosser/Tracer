@@ -1,5 +1,6 @@
 from itertools import islice
 import pygame
+import numpy as np
 
 
 class Trace(object):
@@ -36,3 +37,21 @@ class Trace(object):
         for elem in it:
             result = result[1:] + (elem,)
             yield result
+
+    def ricker_wavelet_analytical(self, frequency=10., position=0.5, resolution=1000):
+        time = np.linspace(0, 1.0, resolution)
+        time_pow = np.power(time-position, 2)
+        ricker = np.multiply(1-2*np.pi**2*frequency**2.*time_pow, np.exp(-np.pi**2*frequency**2.*time_pow))
+        return ricker
+
+    def create_impedance_vector(self, positions, values, dim, noise=None):
+        impedance_values = np.zeros(dim)
+        if noise is not None:
+            impedance_values = np.add(impedance_values, noise)
+
+        for position, value in zip(positions, values):
+            impedance_values[position] = value
+        return impedance_values
+
+    def create_trace(self, wavelet, impedance):
+        return np.convolve(wavelet, impedance)
