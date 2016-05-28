@@ -5,18 +5,19 @@ import numpy as np
 
 
 class Trace(object):
-    def __init__(self, screen):
+    def __init__(self, peak_num, screen):
         """
         Trace:
         contains representation of trace data
         is used on Screen to represent seismic data
         :return:
         """
+        self.peaks = [0]*peak_num
         self.data = [math.sin(float(n) / 3) for n in range(100)]
 
-	self.screen = screen
+        self.screen = screen
 
-	self.length = screen.height * 2 # the vertical size in pixels
+        self.length = screen.height * 2 # the vertical size in pixels
 
     def draw_line(self, screen, dim, pos, linecolor=[255, 0, 0], line_resolution=2):
         """
