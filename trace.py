@@ -13,7 +13,7 @@ class Trace(object):
         :return:
         """
         self.peaks = [0]*peak_num
-        self.data = [math.sin(float(n) / 3) for n in range(100)]
+        self.data = [create_trace(ricker,impedance)(float(n) / 3) for n in range(100)]
 
         self.screen = screen
 
