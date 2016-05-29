@@ -21,7 +21,8 @@ class EventLoop:
         self.normalized_score = 0.
         self.number_of_traces = 0
 
-        self.trace_position = -screen.height / 2 # vertical position relative to center
+        self.new_trace_pos = -screen.height / 2
+        self.trace_position = self.new_trace_pos # vertical position relative to center
 
         self.clock = pygame.time.Clock()
 
@@ -43,14 +44,10 @@ class EventLoop:
             if event.type == pygame.QUIT:
                 self.done = True
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                self.step = -self.step
-                if self.record_score:
-                    self.number_of_traces += 1
-                    self.total_score += score
-                    self.normalized_score = self.total_score/float(self.number_of_traces)
-                    self.record_score = False
-                else:
-                    self.record_score = True
+		self.trace_position = self.new_trace_pos
+                self.number_of_traces += 1
+                self.total_score += score
+                self.normalized_score = self.total_score/float(self.number_of_traces)
 
         self.screen.clear()
         self.comparison_trace.draw(0, x_offset=100, y_offset=0)
