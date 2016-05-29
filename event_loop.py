@@ -57,10 +57,13 @@ class EventLoop:
         #score = self.comparison_trace.peaks[0]-self.trace_position-self.reference_trace.peaks[0]
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                self.level.save_json()
                 self.done = True
             elif event.type == pygame.KEYDOWN and event.key in [pygame.K_q, pygame.K_ESCAPE]:
                 self.done = True
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                self.level.interpreted_traces.append([self.level.current_trace.data, self.trace_position])
+
                 self.last_trace_positions.append(self.trace_position)
                 self.last_trace_positions_x.append(self.trace_position)
                 self.last_trace_positions_y.append(self.trace_position)
@@ -73,19 +76,20 @@ class EventLoop:
                 self.last_scores.append(score)
                 if 10 < np.mean(self.last_scores) < 20 and len(self.last_scores) == 3:
                     print "increased speed", self.speed
-                    self.speed += 10
+                    self.step += 1
                 elif np.mean(self.last_scores) < 10 and len(self.last_scores) == 3:
                     print "increased speed", self.speed
-                    self.speed += 50
+                    self.step += 2
                 elif np.mean(self.last_scores) > 20 and len(self.last_scores) == 3:
-                    self.speed -= 20
+                    self.step -= 2
                 else:
                     pass
 
                 if len(self.last_scores) == 4:
                     self.last_scores = []
 
-                self.level.push_next_trace()
+                #self.level.push_next_trace()
+                self.level.previous_traces.append(self.level.current_trace)
                 if len(self.level.previous_traces) > 3:
                     self.level.previous_traces.popleft()
                     self.last_trace_positions_x.popleft()
@@ -94,6 +98,7 @@ class EventLoop:
 
         self.screen.clear()
         self.comparison_trace.draw(0, x_offset=100, y_offset=0, color=(0, 0, 0))
+        self.level.current_trace = self.level.get_next_trace()
         self.reference_trace.draw(self.trace_position, y_offset=self.trace_position, x_offset=500-self.trace_position, color=(0, 255, 0))
 
         if len(self.level.previous_traces) is not 0:
