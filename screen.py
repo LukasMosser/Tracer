@@ -19,7 +19,7 @@ class ScoreDisplay(object):
         self.screen = screen
         self.font = pygame.font.SysFont("monospace", 36)
 
-    def draw_score(self, score, position):
-        label = self.font.render("Score: "+str(score), 1, (0, 0, 0))
+    def draw_score(self, text, score, position):
+        label = self.font.render(text+" "+str(score), 1, (0, 0, 0))
         self.screen.screen.blit(label, position)
 
