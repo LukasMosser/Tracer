@@ -1,3 +1,6 @@
 [submodule "obspy_src"]
 	path = obspy_src
 	url = git@github.com:obspy/obspy.git
+[submodule "segpy_src"]
+	path = segpy_src
+	url = git@github.com:sixty-north/segpy.git
