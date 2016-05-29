@@ -7,8 +7,8 @@ class EventLoop:
 
         self.character = character.Character(screen)
 
-	self.reference_trace = trace.Trace(self.screen)
-	self.comparison_trace = trace.Trace(self.screen)
+	self.reference_trace = trace.Trace(1, self.screen)
+	self.comparison_trace = trace.Trace(1, self.screen)
 
 	self.trace_position = 0 # vertical position relative to center
 
