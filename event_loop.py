@@ -82,6 +82,8 @@ class EventLoop:
                     self.step += 2
                 elif np.mean(self.last_scores) > 20 and len(self.last_scores) == 3:
                     self.step -= 2
+                    if self.step < 1:
+                        self.step = 1
                 else:
                     pass
 

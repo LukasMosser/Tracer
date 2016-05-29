@@ -10,6 +10,7 @@ class Level(object):
         self.screen = screen
 
         self.survey = Survey()
+        self.artificial = True
 
         self.dim = self.screen.height
         self.peaks = peaks
@@ -29,11 +30,13 @@ class Level(object):
 
     def initial_trace(self):
         self.reference_trace = Trace([400], self.screen)
-        print self.survey.data
-        self.reference_trace.data = self.survey.data[self.current_real_trace, :]#/(max(self.survey.data[:, 0])-min(self.survey.data[:, 0]))
+        if not self.artificial:
+            self.reference_trace.data = self.survey.data[self.current_real_trace, :]#/(max(self.survey.data[:, 0])-min(self.survey.data[:, 0]))
         self.current_real_trace += 1
         self.current_trace = Trace([400], self.screen, noise=True)
-        self.current_trace.data = self.survey.data[self.current_real_trace, :]
+
+        if not self.artificial:
+            self.current_trace.data = self.survey.data[self.current_real_trace, :]
         self.current_real_trace += 1
         self.current_trace.peaks = randint(0, high=self.dim, size=self.peaks)
 
@@ -46,8 +49,10 @@ class Level(object):
             new_trace.peaks[i] = new_pos
             print new_trace.peaks
 
-        new_trace.data = self.survey.data[self.current_real_trace, :]
-        self.current_real_trace += 1
+        if not self.artificial:
+            new_trace.data = self.survey.data[self.current_real_trace, :]
+            self.current_real_trace += 1
+
         return new_trace
 
     def get_new_peak_position(self, current_pos):
