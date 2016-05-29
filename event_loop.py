@@ -21,7 +21,7 @@ class EventLoop:
         self.normalized_score = 0.
         self.number_of_traces = 0
 
-        self.trace_position = 0 # vertical position relative to center
+        self.trace_position = -screen.height / 2 # vertical position relative to center
 
         self.clock = pygame.time.Clock()
 
@@ -54,7 +54,7 @@ class EventLoop:
 
         self.screen.clear()
         self.comparison_trace.draw(0, x_offset=100, y_offset=0)
-        self.reference_trace.draw(self.trace_position, y_offset=self.trace_position, x_offset=500-self.trace_position)
+        self.reference_trace.draw(self.trace_position, y_offset=self.trace_position, x_offset=500-self.trace_position, color=(0, 255, 0))
         self.score_disp.draw_score("Current Score", score, (100, 0))
         self.total_score_disp.draw_score("Total Score", self.total_score, (100, 50))
         self.normalized_score_disp.draw_score("Normed Score", self.normalized_score, (100, 100))
