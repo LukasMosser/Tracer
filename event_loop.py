@@ -36,7 +36,8 @@ class EventLoop:
 
         self.screen.clear()
 
-        self.reference_trace.draw(self.trace_position, y_offset=self.trace_position, x_offset=500-self.trace_position)
+        self.reference_trace.draw(0, y_offset=0, x_offset=100, color=(255, 0, 255))
+        self.comparison_trace.draw(self.trace_position, y_offset=self.trace_position, x_offset=500-self.trace_position)
         self.character.draw()
         pygame.display.flip()
         self.trace_position += self.step

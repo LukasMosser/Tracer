@@ -46,7 +46,7 @@ class Trace(object):
             result = result[1:] + (elem,)
             yield result
 
-    def draw(self, pos, x_offset=200, y_offset=200):
+    def draw(self, pos, x_offset=200, y_offset=200, color=(255, 255, 0)):
         """
         :param pos: vertical position relative to center
         """
@@ -73,7 +73,7 @@ class Trace(object):
 
             #print x0, y0, x1, y1
 
-            pygame.draw.line(self.screen.screen, (255, 0, 255), (x0, y0), (x1, y1), 2)
+            pygame.draw.line(self.screen.screen, color, (x0, y0), (x1, y1), 2)
             #break
 
     def ricker_wavelet_analytical(self, frequency=10., position=0.5, resolution=1000):
