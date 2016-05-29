@@ -1,7 +1,6 @@
 import pygame
 import character, trace
 from screen import ScoreDisplay
-from level import Level
 
 class EventLoop:
     def __init__(self, screen):
@@ -9,13 +8,10 @@ class EventLoop:
         peak_num = 1
         self.screen = screen
 
-        self.level = Level(1, self.screen)
-        self.level.initial_trace()
-
         self.character = character.Character(screen)
 
-        #self.reference_trace = trace.Trace([400], self.screen)
-        #self.comparison_trace = trace.Trace([400], self.screen)
+        self.reference_trace = trace.Trace([400], self.screen)
+        self.comparison_trace = trace.Trace([400], self.screen)
 
         self.score_disp = ScoreDisplay(self.screen)
         self.total_score_disp = ScoreDisplay(self.screen)
@@ -25,7 +21,8 @@ class EventLoop:
         self.normalized_score = 0.
         self.number_of_traces = 0
 
-        self.trace_position = 0 # vertical position relative to center
+        self.new_trace_pos = -screen.height / 2
+        self.trace_position = self.new_trace_pos # vertical position relative to center
 
         self.clock = pygame.time.Clock()
 
@@ -41,27 +38,20 @@ class EventLoop:
 
     def run(self):
         self.clock.tick(100)
-        score = abs(self.level.reference_trace.peaks[0]-(self.level.current_trace.peaks[0]-self.trace_position))
+        score = abs(self.reference_trace.peaks[0]-(self.comparison_trace.peaks[0]-self.trace_position))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.done = True
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                self.step = -self.step
-                if self.record_score:
-                    self.number_of_traces += 1
-                    self.total_score += score
-                    self.normalized_score = self.total_score/float(self.number_of_traces)
-                    self.record_score = False
-                    print self.level.current_trace, self.level.current_trace.peaks
-                else:
-                    self.record_score = True
-                    self.level.push_next_trace()
+		self.trace_position = self.new_trace_pos
+                self.number_of_traces += 1
+                self.total_score += score
+                self.normalized_score = self.total_score/float(self.number_of_traces)
 
         self.screen.clear()
-        self.level.reference_trace.draw(0, x_offset=100, y_offset=0)
-        self.level.current_trace.draw(self.trace_position, y_offset=self.trace_position, x_offset=500-self.trace_position)
-
+        self.comparison_trace.draw(0, x_offset=100, y_offset=0)
+        self.reference_trace.draw(self.trace_position, y_offset=self.trace_position, x_offset=500-self.trace_position, color=(0, 255, 0))
         self.score_disp.draw_score("Current Score", score, (100, 0))
         self.total_score_disp.draw_score("Total Score", self.total_score, (100, 50))
         self.normalized_score_disp.draw_score("Normed Score", self.normalized_score, (100, 100))
