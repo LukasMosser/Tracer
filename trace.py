@@ -63,18 +63,17 @@ class Trace(object):
 
         amplitude_factor = 100
 
+	y = end_index - begin_index
         for n in range(begin_index, end_index):
 
             x0 = self.data[n] * amplitude_factor + x_offset
-            y0 = n / sample_rate - window / 2 + y_offset
+            y0 = y / sample_rate
 
             x1 = self.data[n+1] * amplitude_factor + x_offset
-            y1 = (n + 1) / sample_rate - window / 2 + y_offset
-
-            #print x0, y0, x1, y1
+            y1 = (y + 1) / sample_rate
 
             pygame.draw.line(self.screen.screen, color, (x0, y0), (x1, y1), 2)
-            #break
+            y = y - 1
 
     def ricker_wavelet_analytical(self, frequency=10., position=0.5, resolution=1000):
         time = np.linspace(0, 1.0, resolution)
