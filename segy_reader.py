@@ -10,6 +10,8 @@ def main():
 		trace = [float(a) for a in segy_reader.trace_samples(trace_index)]
 		traces.append(trace)
 
+	traces = traces[:int(len(traces) / 2)]
+
 	json.dump(traces, open(output_path, 'w'))
 
 if __name__ == "__main__":
