@@ -54,32 +54,38 @@ class Trace(object):
             yield result
 
     def draw(self, pos, x_offset=200, y_offset=200, color=(255, 255, 0)):
-		"""
-		:param pos: vertical position relative to center
-		"""
+        """
+        :param pos: vertical position relative to center
+        """
 
-		window = self.screen.height
+        window = self.screen.height
 
-		sample_rate = float(len(self.data)) / self.length
+        sample_rate = float(len(self.data)) / self.length
 
-		begin_pos = self.length / 2 - window / 2 + pos
-		end_pos = self.length / 2 + window / 2 + pos
+        begin_pos = self.length / 2 - window / 2 + pos
+        end_pos = self.length / 2 + window / 2 + pos
 
-		begin_index = int(begin_pos * sample_rate)
-		end_index = int(end_pos * sample_rate)
+        begin_index = int(begin_pos * sample_rate)
+        end_index = int(end_pos * sample_rate)
 
-		amplitude_factor = 100
+        amplitude_factor = 100
 
-		y = end_index - begin_index
-		for n in range(begin_index, end_index):
-			x0 = self.data[n % len(self.data)] * amplitude_factor + x_offset
-			y0 = y / sample_rate
+        y = end_index - begin_index
+        for n in range(begin_index, end_index):
+            x0 = self.data[n % len(self.data)] * amplitude_factor + x_offset
+            y0 = y / sample_rate
 
-			x1 = self.data[(n+1) % len(self.data)] * amplitude_factor + x_offset
-			y1 = (y + 1) / sample_rate
+            x1 = self.data[(n+1) % len(self.data)] * amplitude_factor + x_offset
+            y1 = (y + 1) / sample_rate
+            if self.data[n % len(self.data)] > 0. and self.data[(n+1) % len(self.data)] > 0.:
+                color = (0, 0, 255)
+            elif self.data[n % len(self.data)] < 0. and self.data[(n+1) % len(self.data)] <0.:
+                color = (255, 0, 0)
+            else:
+                color = (0, 0, 0)
 
-			pygame.draw.aaline(self.screen.screen, color, (x0, y0), (x1, y1), 2)
-			y = y - 1
+            pygame.draw.aaline(self.screen.screen, color, (x0, y0), (x1, y1), 2)
+            y -= 1
 
 
     def ricker_wavelet_analytical(self, frequency=10., position=0.5, resolution=1000):

@@ -1,9 +1,10 @@
 from trace import Trace
-from numpy.random import randint, normal, uniform
+from numpy.random import randint, normal, uniform, seed
 from collections import deque
 
 class Level(object):
     def __init__(self, peaks, screen):
+        seed(666)
         self.screen = screen
 
         self.dim = self.screen.height
@@ -17,7 +18,7 @@ class Level(object):
         self.top_pad = 10
         self.bottom_pad = 10
 
-        self.level_params = {"switch_probability": 0.05, "peak_shift_distance_min": 3, "peak_shift_distance_max": 100, "peak_shift_spread": 1.0}
+        self.level_params = {"switch_probability": 0.05, "peak_shift_distance_min": 100, "peak_shift_distance_max": 400, "peak_shift_spread": 1.0}
 
     def initial_trace(self):
         self.reference_trace = Trace([400], self.screen)
@@ -31,6 +32,7 @@ class Level(object):
             while new_pos <= self.bottom_pad or new_pos >= self.dim-self.top_pad:
                 new_pos = self.get_new_peak_position(current_peak)
             new_trace.peaks[i] = new_pos
+            print new_trace.peaks
         return new_trace
 
     def get_new_peak_position(self, current_pos):
