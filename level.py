@@ -1,9 +1,10 @@
 from trace import Trace
-from numpy.random import randint, normal, uniform
+from numpy.random import randint, normal, uniform, seed
 from collections import deque
 
 class Level(object):
     def __init__(self, peaks, screen):
+        seed(666)
         self.screen = screen
 
         self.dim = self.screen.height
