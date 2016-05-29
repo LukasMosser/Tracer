@@ -20,9 +20,8 @@ class Level(object):
         self.level_params = {"switch_probability": 0.05, "peak_shift_distance_min": 3, "peak_shift_distance_max": 100, "peak_shift_spread": 1.0}
 
     def initial_trace(self):
-        self.reference_trace = Trace(self.peaks, self.screen)
-        self.reference_trace.peaks[0] = 0
-        self.current_trace = Trace(self.peaks, self.screen, noise=True)
+        self.reference_trace = Trace([400], self.screen)
+        self.current_trace = Trace([400], self.screen, noise=True)
         self.current_trace.peaks = randint(0, high=self.dim, size=self.peaks)
 
     def get_next_trace(self):
