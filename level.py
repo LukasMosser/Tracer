@@ -47,7 +47,7 @@ class Level(object):
             while new_pos <= self.bottom_pad or new_pos >= self.dim-self.top_pad:
                 new_pos = self.get_new_peak_position(current_peak)
             new_trace.peaks[i] = new_pos
-            print new_trace.peaks
+            #print new_trace.peaks
 
         if not self.artificial:
             new_trace.data = self.survey.data[self.current_real_trace, :]
