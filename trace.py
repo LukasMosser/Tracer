@@ -66,10 +66,10 @@ class Trace(object):
 	y = end_index - begin_index
         for n in range(begin_index, end_index):
 
-            x0 = self.data[n] * amplitude_factor + x_offset
+            x0 = self.data[n % len(self.data)] * amplitude_factor + x_offset
             y0 = y / sample_rate
 
-            x1 = self.data[n+1] * amplitude_factor + x_offset
+            x1 = self.data[(n+1) % len(self.data)] * amplitude_factor + x_offset
             y1 = (y + 1) / sample_rate
 
             pygame.draw.line(self.screen.screen, color, (x0, y0), (x1, y1), 2)
