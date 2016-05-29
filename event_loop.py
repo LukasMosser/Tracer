@@ -1,6 +1,7 @@
 import pygame
 import character, trace
 from screen import ScoreDisplay
+from level import Level
 
 class EventLoop:
     def __init__(self, screen):
@@ -8,10 +9,13 @@ class EventLoop:
         peak_num = 1
         self.screen = screen
 
+        self.level = Level(1, self.screen)
+        self.level.initial_trace()
+
         self.character = character.Character(screen)
 
-        self.reference_trace = trace.Trace([400], self.screen)
-        self.comparison_trace = trace.Trace([400], self.screen)
+        self.reference_trace = self.level.current_trace
+        self.comparison_trace = self.level.reference_trace
 
         self.score_disp = ScoreDisplay(self.screen)
         self.total_score_disp = ScoreDisplay(self.screen)
@@ -38,15 +42,15 @@ class EventLoop:
 
     def run(self):
         self.clock.tick(100)
-        score = abs(self.reference_trace.peaks[0]-(self.comparison_trace.peaks[0]-self.trace_position))
-
+        score = self.trace_position#self.reference_trace.peaks[0]
+        #score = self.comparison_trace.peaks[0]-self.trace_position-self.reference_trace.peaks[0]
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.done = True
             elif event.type == pygame.KEYDOWN and event.key in [pygame.K_q, pygame.K_ESCAPE]:
                 self.done = True
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-		self.trace_position = self.new_trace_pos
+                self.trace_position = self.new_trace_pos
                 self.number_of_traces += 1
                 self.total_score += score
                 self.normalized_score = self.total_score/float(self.number_of_traces)

@@ -68,9 +68,8 @@ class Trace(object):
 
         amplitude_factor = 100
 
-	y = end_index - begin_index
+        y = end_index - begin_index
         for n in range(begin_index, end_index):
-
             x0 = self.data[n % len(self.data)] * amplitude_factor + x_offset
             y0 = y / sample_rate
 
