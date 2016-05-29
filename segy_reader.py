@@ -2,7 +2,7 @@ import json
 from segpy import reader
 def main():
 	output_path = "data.json"
-	fh = open("line12.sgy", 'rb')
+	fh = open("line12_1.8_2.2s", 'rb')
 	segy_reader = reader.create_reader(fh)
 	traces = []
 
