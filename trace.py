@@ -5,16 +5,16 @@ import numpy as np
 
 
 class Trace(object):
-    def __init__(self, peak_num, screen):
+    def __init__(self, peaks, screen):
         """
         Trace:
         contains representation of trace data
         is used on Screen to represent seismic data
         :return:
         """
-        self.peaks = [0]*peak_num
+        self.peaks = peaks
         self.wavelet = self.ricker_wavelet_analytical()
-        self.impedance = self.create_impedance_vector([100], [1], 800)
+        self.impedance = self.create_impedance_vector(self.peaks, [1]*len(self.peaks), 800)
         self.data = self.create_trace(self.wavelet, self.impedance)
 
         self.screen = screen
