@@ -93,12 +93,12 @@ class EventLoop:
                     self.last_trace_positions.popleft()
 
         self.screen.clear()
-        self.comparison_trace.draw(0, x_offset=100, y_offset=0)
+        self.comparison_trace.draw(0, x_offset=100, y_offset=0, color=(0, 0, 0))
         self.reference_trace.draw(self.trace_position, y_offset=self.trace_position, x_offset=500-self.trace_position, color=(0, 255, 0))
 
         if len(self.level.previous_traces) is not 0:
             for prev_trace, last_trace_x, last_trace_y, last_trace_pos in zip(self.level.previous_traces, self.last_trace_positions_x, self.last_trace_positions_y, self.last_trace_positions):
-                prev_trace.draw(last_trace_x, y_offset=last_trace_y, x_offset=500-last_trace_pos)
+                prev_trace.draw(last_trace_x, y_offset=last_trace_y, x_offset=500-last_trace_pos, color=(0, 0, 0))
         self.score_disp.draw_score("Current Score", score, (100, 0))
         self.total_score_disp.draw_score("Total Score", self.total_score, (100, 50))
         self.normalized_score_disp.draw_score("Normed Score", self.normalized_score, (100, 100))
