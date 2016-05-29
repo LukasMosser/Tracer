@@ -3,24 +3,30 @@ from numpy.random import randint, normal, uniform
 
 
 class Level(object):
-    def __init__(self, peaks, dim):
-        self.dim = dim
+    def __init__(self, peaks, screen):
+        self.screen = screen
+
+        self.dim = self.screen.height
         self.peaks = peaks
         self.previous_trace = None
         self.current_trace = None
         self.next_trace = None
 
+        self.reference_trace = None
+
         self.top_pad = 10
         self.bottom_pad = 10
 
-        self.level_params = {"switch_probability": 0.05, "peak_shift_distance_min": 3, "peak_shift_distance_max": 10, "peak_shift_spread": 1.0}
+        self.level_params = {"switch_probability": 0.05, "peak_shift_distance_min": 3, "peak_shift_distance_max": 100, "peak_shift_spread": 1.0}
 
     def initial_trace(self):
-        self.current_trace = Trace(self.peaks)
+        self.reference_trace = Trace(self.peaks, self.screen)
+        self.reference_trace.peaks[0] = 0
+        self.current_trace = Trace(self.peaks, self.screen, noise=True)
         self.current_trace.peaks = randint(0, high=self.dim, size=self.peaks)
 
     def get_next_trace(self):
-        new_trace = Trace(self.peaks)
+        new_trace = Trace(self.peaks, self.screen, noise=True)
         for i, (current_peak, next_peak) in enumerate(zip(self.current_trace.peaks, new_trace.peaks)):
             new_pos = self.get_new_peak_position(current_peak)
             while new_pos <= self.bottom_pad or new_pos >= self.dim-self.top_pad:
