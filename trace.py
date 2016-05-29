@@ -12,7 +12,7 @@ class Trace(object):
         is used on Screen to represent seismic data
         :return:
         """
-        self.peaks = [0]*peaks
+        self.peaks = peaks
         self.wavelet = self.ricker_wavelet_analytical()
         if noise:
             added_noise = np.random.uniform(low=-0.03, high=0.03, size=800)

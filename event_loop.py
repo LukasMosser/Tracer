@@ -43,6 +43,8 @@ class EventLoop:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.done = True
+            elif event.type == pygame.KEYDOWN and event.key in [pygame.K_q, pygame.K_ESCAPE]:
+                self.done = True
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
 		self.trace_position = self.new_trace_pos
                 self.number_of_traces += 1
